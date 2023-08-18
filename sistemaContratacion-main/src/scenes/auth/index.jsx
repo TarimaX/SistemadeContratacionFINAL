@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
 import { useSelector, useDispatch } from "react-redux";
 import { login } from "../../reducers/auth.slice";
@@ -7,15 +7,19 @@ import EmailIcon from "@mui/icons-material/Email";
 import isValidCI from "./validateCI";
 import { useAuth } from "../../context/AuthContext";
 import KeyIcon from "@mui/icons-material/Key";
+import TextField from "@mui/material/TextField";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import InputAdornment from "@mui/material/InputAdornment";
 import ContactEmergencyIcon from "@mui/icons-material/ContactEmergency";
 import PopUpRegistro from "../../components/PopUps/PopUpRegistro";
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import "./Auth.css";
 import PopUpSeguro from "../../components/PopUps/PopUpSeguro";
 import PrivacidadDeDatos from "../../components/PopUps/PrivacidadDeDatos";
-
+import { useNavigate } from "react-router-dom";
+import { setCookie } from "../../Utils/Utils";
 
 function Auth() {
   const [signIn, setSignIn] = React.useState(true);
@@ -83,21 +87,26 @@ function Auth() {
     setCurrentPage("signin");
   }, []);
 
+  const navigate = useNavigate();
+
   const submitSignin = () => {
-    if (signinForm.email.current.value.trim().length === 0) {
-      return signinForm.email.current.focus();
-    }
+    // if (signinForm.email.current.value.trim().length === 0) {
+    //   return signinForm.email.current.focus();
+    // }
 
-    if (signinForm.password.current.value.trim().length === 0) {
-      return signinForm.password.current.focus();
-    }
+    // if (signinForm.password.current.value.trim().length === 0) {
+    //   return signinForm.password.current.focus();
+    // }
 
-    setEmail(signinForm.email.current.value);
-    setPassword(signinForm.password.current.value);
+    console.log(formSignIn);
+    setEmail(formSignIn.email);
+    setPassword(formSignIn.password);
     signin({ correo: email, password: password });
 
-    setFormErrors([]);
+    setCookie('auth',true,30)
+
     dispatch(login());
+    navigate("/");
   };
 
   const submitRegister = () => {
@@ -132,8 +141,6 @@ function Auth() {
   };
 
   const handleBackClick = () => {
-
-
     signup({
       tipoid: identificationType,
       numid: identificationNumber,
@@ -156,6 +163,19 @@ function Auth() {
     localStorage.setItem("password", password);
   };
 
+  const [formSignIn, setFormSignIn] = useState({
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormSignIn((prevForm) => ({
+      ...prevForm,
+      [name]: value,
+    }));
+  };
+
   return (
     <div className="authPage">
       <Components.Container
@@ -163,7 +183,6 @@ function Auth() {
           background: "linear-gradient(180deg, #007B49 0%, #00A650 100%)",
         }}
       >
-
         <Components.SignUpContainer signinIn={signIn}>
           <Components.Form id="createAccount">
             <Components.Title>
@@ -180,7 +199,10 @@ function Auth() {
                       id="primerNombre"
                       placeholder="Ingresa tu primer nombre"
                       value={primerNombre}
-                      onChange={(e) => { setPrimerNombre(e.target.value); localStorage.setItem('nombre', e.target.value) }}
+                      onChange={(e) => {
+                        setPrimerNombre(e.target.value);
+                        localStorage.setItem("nombre", e.target.value);
+                      }}
                     />
                   </div>
                   <div className="cell">
@@ -202,7 +224,10 @@ function Auth() {
                       id="primerApellido"
                       placeholder="Ingresa tu primer apellido"
                       value={primerApellido}
-                      onChange={(e) => { setPrimerApellido(e.target.value); localStorage.setItem('apellido', e.target.value) }}
+                      onChange={(e) => {
+                        setPrimerApellido(e.target.value);
+                        localStorage.setItem("apellido", e.target.value);
+                      }}
                     />
                   </div>
                   <div className="cell">
@@ -250,7 +275,10 @@ function Auth() {
                 </label>
                 <Components.TitleSelect
                   value={senescytTitle}
-                  onChange={(e) => { setSenescytTitle(e.target.value); localStorage.setItem('titulo', e.target.value) }}
+                  onChange={(e) => {
+                    setSenescytTitle(e.target.value);
+                    localStorage.setItem("titulo", e.target.value);
+                  }}
                 >
                   <option value="">Selecciona tu título Senescyt</option>
                   <option value="Magíster">Magíster</option>
@@ -314,7 +342,7 @@ function Auth() {
         </Components.SignUpContainer>
 
         <Components.SignInContainer signinIn={signIn}>
-          {currentPage == "signin" ? (
+          {currentPage === "signin" ? (
             <Components.Form>
               <Components.Title>
                 Formulario de Admisión para docentes
@@ -322,47 +350,57 @@ function Auth() {
               <Components.Subtitle></Components.Subtitle>
 
               <div className="authForm">
-                <div className="row">
-                  <div className="col">
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <label htmlFor="email">
-                        <EmailIcon />
-                      </label>
-                      <span style={{ marginLeft: "-3px" }}>Email</span>
-                    </div>
-                    <Components.Input
-                      type="email"
-                      placeholder="Email"
-                      ref={signinForm.email}
-                    />
-                  </div>
+                <div
+                  style={{
+                    width: "80%",
+                    margin: "0 auto",
+                    alignItems: "center",
+                  }}
+                >
+                  <TextField
+                    label="Correo Electrónico"
+                    fullWidth
+                    margin="normal"
+                    name="email"
+                    variant="standard"
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AccountCircle />
+                        </InputAdornment>
+                      ),
+                    }}
+                    value={formSignIn.email}
+                    onChange={handleInputChange}
+                  />
                 </div>
-                <div className="row">
-                  <div className="col">
-                    <div style={{ display: "flex", alignItems: "center" }}>
-                      <label htmlFor="password">
-                        <KeyIcon />
-                      </label>
-                      <span style={{ marginLeft: "-3px" }}>Contraseña</span>
-                    </div>
-                    <Components.Input
-                      type="password"
-                      placeholder="Contraseña"
-                      ref={signinForm.password}
-                    />
-                  </div>
+
+                <div
+                  style={{
+                    width: "80%",
+                    margin: "0 auto",
+                    alignItems: "center",
+                  }}
+                >
+                  <TextField
+                    label="Contraseña"
+                    fullWidth
+                    margin="normal"
+                    variant="standard"
+                    type="password"
+                    name="password"
+                    value={formSignIn.password}
+                    onChange={handleInputChange}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <KeyIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
                 </div>
-                {formErrors.length !== 0 ? (
-                  <div className="formErrors">
-                    <ul>
-                      {formErrors.map((error, index) => (
-                        <li>{error}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ) : null}
-                {/* '6Ldicg4TAAAAAEIi-Tlg7YgHxcPCNVHvac92lrdX' */}
-                <div style={{ width: "50px", height: "25px" }}></div>
+
                 {/* Use anchor attribute to navigate to the "createAccount" section */}
                 <div>
                   <div className="row">
@@ -405,7 +443,10 @@ function Auth() {
                 <Components.NumericInput
                   ref={identificationInput}
                   value={identificationNumber}
-                  onChange={(e) => { setIdentificationNumber(e.target.value); localStorage.setItem('cedula', e.target.value) }}
+                  onChange={(e) => {
+                    setIdentificationNumber(e.target.value);
+                    localStorage.setItem("cedula", e.target.value);
+                  }}
                   type="number"
                   placeholder="Cédula"
                   maxDigits={10}

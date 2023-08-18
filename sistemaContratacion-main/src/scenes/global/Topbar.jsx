@@ -3,6 +3,8 @@ import { useContext, useState } from "react";
 import { ColorModeContext, tokens } from "../../theme";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LogoutIcon from "@mui/icons-material/Logout"; // You can use the appropriate logout icon
+import { deleteCookie } from "../../Utils/Utils";
+import { useNavigate } from "react-router-dom";
 
 const Topbar = () => {
   const theme = useTheme();
@@ -13,6 +15,12 @@ const Topbar = () => {
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const navigate = useNavigate();
+  const handleLogout = () =>{
+    deleteCookie('auth')
+    navigate('/')
+  }
 
   const handleMenuClose = () => {
     setAnchorEl(null);
@@ -34,11 +42,15 @@ const Topbar = () => {
         <IconButton onClick={handleMenuOpen}>
           <PersonOutlinedIcon />
         </IconButton>
-        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
           {/* Add other menu items here if needed */}
           <MenuItem onClick={handleMenuClose}>
             <LogoutIcon sx={{ mr: 1 }} />
-            Cerrar Sesión
+            <p onClick={handleLogout}>Cerrar Sesión</p>
           </MenuItem>
         </Menu>
       </Box>

@@ -24,6 +24,8 @@ import FormularioCaEspecifico from "./scenes/formulario-postulacion/CampoEspecif
 import FormularioCaAmplio from "./scenes/formulario-postulacion/CampoAmplioForm";
 import FormularioActividad from "./scenes/formulario-postulacion/ActividadForm";
 import { Calificaciones } from "./scenes/tablas-calificacion";
+import { getCookie } from "./Utils/Utils";
+
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -31,47 +33,77 @@ function App() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
+  let isAuth = false;
+  const authValue = getCookie("auth");
+  isAuth = authValue === "true" ? true : false;
+
   return (
     <AuthProvider>
-      {auth.isLogged ? (
-      <ColorModeContext.Provider value={colorMode}>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
-          <div className="app">
-            <Sidebar isSidebar={isSidebar} />
-            <main className="content">
-              <Topbar setIsSidebar={setIsSidebar} />
-              <Routes>
-                <Route path="/home" element={<Home />} />
-                <Route path="/login" element={<Home />} />
-                <Route path="/autenticacion" element={<Auth />} />
-                <Route path="/" element={<Dashboard />} />
-                <Route
-                  path="/seleccionar-postulacion"
-                  element={<FormularioPostulacion />}
-                />
-                <Route
-                  path="/formulario-oferta"
-                  element={<FormulariOferta />}
-                />
-                <Route path="/formulario-periodo" element={<FormularioPeriodo />} />
-                <Route path="/formulario-contratacion" element={<FormularioContratacion />} />
-                <Route path="/formulario-cespecifico" element={<FormularioCaEspecifico />} />
-                <Route path="/formulario-camplio" element={<FormularioCaAmplio />} />
-                <Route path="/formulario-sede" element={<FormularioSede />} />
-                <Route path="/formulario-departamento" element={<FormularioDept />} />
-                <Route path="/formulario-pacademico" element={<FormularioPacad />} />
-                <Route path="/formulario-actividad" element={<FormularioActividad />} />
+      {isAuth ? (
+        <ColorModeContext.Provider value={colorMode}>
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <div className="app">
+              <Sidebar isSidebar={isSidebar} />
+              <main className="content">
+                <Topbar setIsSidebar={setIsSidebar} />
+                <Routes>
+                  <Route path="/home" element={<Home />} />
+                  <Route path="/login" element={<Home />} />
+                  <Route path="/autenticacion" element={<Auth />} />
+                  <Route path="/" element={<Dashboard />} />
+                  <Route
+                    path="/seleccionar-postulacion"
+                    element={<FormularioPostulacion />}
+                  />
+                  <Route
+                    path="/formulario-oferta"
+                    element={<FormulariOferta />}
+                  />
+                  <Route
+                    path="/formulario-periodo"
+                    element={<FormularioPeriodo />}
+                  />
+                  <Route
+                    path="/formulario-contratacion"
+                    element={<FormularioContratacion />}
+                  />
+                  <Route
+                    path="/formulario-cespecifico"
+                    element={<FormularioCaEspecifico />}
+                  />
+                  <Route
+                    path="/formulario-camplio"
+                    element={<FormularioCaAmplio />}
+                  />
+                  <Route path="/formulario-sede" element={<FormularioSede />} />
+                  <Route
+                    path="/formulario-departamento"
+                    element={<FormularioDept />}
+                  />
+                  <Route
+                    path="/formulario-pacademico"
+                    element={<FormularioPacad />}
+                  />
+                  <Route
+                    path="/formulario-actividad"
+                    element={<FormularioActividad />}
+                  />
 
-                <Route path="/subir-informacion" element={<Formulario />} />
-                <Route path="/tabla-candidatos" element={<Candidatos />} />
-                <Route path="/tablas-calificacion" element={<Calificaciones/>} />
-              </Routes>
-            </main>
-          </div>
-        </ThemeProvider>
-
-      </ColorModeContext.Provider>) : (<Auth />)}
+                  <Route path="/subir-informacion" element={<Formulario />} />
+                  <Route path="/tabla-candidatos" element={<Candidatos />} />
+                  <Route
+                    path="/tablas-calificacion"
+                    element={<Calificaciones />}
+                  />
+                </Routes>
+              </main>
+            </div>
+          </ThemeProvider>
+        </ColorModeContext.Provider>
+      ) : (
+        <Auth />
+      )}
     </AuthProvider>
   );
 }
