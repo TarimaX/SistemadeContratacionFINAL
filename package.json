@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "pdf-lib": "^1.17.1",
+    "react-draggable": "^4.4.5"
+  }
+}
