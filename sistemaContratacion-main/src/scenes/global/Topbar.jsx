@@ -19,7 +19,7 @@ const Topbar = () => {
   const navigate = useNavigate();
   const handleLogout = () =>{
     deleteCookie('auth')
-    navigate('/')
+    navigate('/login')
   }
 
   const handleMenuClose = () => {

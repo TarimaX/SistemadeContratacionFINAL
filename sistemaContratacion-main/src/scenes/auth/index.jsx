@@ -12,9 +12,6 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import InputAdornment from "@mui/material/InputAdornment";
 import ContactEmergencyIcon from "@mui/icons-material/ContactEmergency";
 import PopUpRegistro from "../../components/PopUps/PopUpRegistro";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import "./Auth.css";
 import PopUpSeguro from "../../components/PopUps/PopUpSeguro";
 import PrivacidadDeDatos from "../../components/PopUps/PrivacidadDeDatos";
@@ -77,7 +74,7 @@ function Auth() {
   };
 
   const identificationInput = React.useRef(null);
-  const { signin, signup, isAuthenticated, errors: registerErrors } = useAuth();
+  const { signin, signup } = useAuth();
   const signinForm = {
     email: React.useRef(null),
     password: React.useRef(null),
