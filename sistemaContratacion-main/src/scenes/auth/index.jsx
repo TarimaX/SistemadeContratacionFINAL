@@ -9,6 +9,7 @@ import { useAuth } from "../../context/AuthContext";
 import KeyIcon from "@mui/icons-material/Key";
 import TextField from "@mui/material/TextField";
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import Autocomplete from "@mui/material/Autocomplete";
 import InputAdornment from "@mui/material/InputAdornment";
 import ContactEmergencyIcon from "@mui/icons-material/ContactEmergency";
 import PopUpRegistro from "../../components/PopUps/PopUpRegistro";
@@ -17,6 +18,8 @@ import PopUpSeguro from "../../components/PopUps/PopUpSeguro";
 import PrivacidadDeDatos from "../../components/PopUps/PrivacidadDeDatos";
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "../../Utils/Utils";
+import Box from '@mui/material/Box';
+import BadgeIcon from '@mui/icons-material/Badge';
 
 function Auth() {
   const [signIn, setSignIn] = React.useState(true);
@@ -32,7 +35,6 @@ function Auth() {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const [sexo, setSexo] = React.useState("");
-  const [identificationType, setIdentificationType] = React.useState("Cédula");
   const [recaptchaVerified, setRecaptchaVerified] = React.useState(false);
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
@@ -100,7 +102,7 @@ function Auth() {
     setPassword(formSignIn.password);
     signin({ correo: email, password: password });
 
-    setCookie('auth',true,30)
+    setCookie("auth", true, 30);
 
     dispatch(login());
     navigate("/");
@@ -123,23 +125,23 @@ function Auth() {
       return identificationInput.current.focus();
     }
 
-    const isValidCedula = isValidCI(identificationNumber);
-    if (!isValidCedula) {
-      return setFormErrors(["Identificación inválida"]);
-    }
+    // const isValidCedula = isValidCI(identificationNumber);
+    // if (!isValidCedula) {
+    //   return setFormErrors(["Identificación inválida"]);
+    // }
 
     if (!recaptchaVerified) {
       return setFormErrors(["Por favor, verifique el Recaptcha"]);
     }
 
     setFormErrors([]);
-    setIdentificationType("Cédula");
+    //set("Cédula");
     setSignIn(false);
   };
 
   const handleBackClick = () => {
     signup({
-      tipoid: identificationType,
+      tipoid: tipoIdentificacion,
       numid: identificationNumber,
       sexo: sexo,
       titulo: senescytTitle,
@@ -171,6 +173,12 @@ function Auth() {
       ...prevForm,
       [name]: value,
     }));
+  };
+
+  const [tipoIdentificacion, setTipoIdentificacion] = useState("");
+
+  const handleTipoIdentificacionChange = (event, newValue) => {
+    setTipoIdentificacion(newValue); // Actualiza el estado con la selección del usuario
   };
 
   return (
@@ -241,7 +249,7 @@ function Auth() {
                 <div className="row">
                   <div className="cell">
                     <label>Tipo de identificación</label>
-                    <span>{identificationType}</span>
+                    <span>{tipoIdentificacion}</span>
                   </div>
                   <div className="cell">
                     <label>Número de identificación</label>
@@ -435,21 +443,45 @@ function Auth() {
           ) : currentPage === "signup" ? (
             <Components.Form>
               <Components.Title>Registro</Components.Title>
-              <Components.Subtitle>Ingrese su cédula</Components.Subtitle>
-              <div style={{ display: "flex", alignItems: "center" }}>
-                <Components.NumericInput
-                  ref={identificationInput}
-                  value={identificationNumber}
-                  onChange={(e) => {
-                    setIdentificationNumber(e.target.value);
-                    localStorage.setItem("cedula", e.target.value);
-                  }}
-                  type="number"
-                  placeholder="Cédula"
-                  maxDigits={10}
-                  style={{ marginRight: "10px" }}
+              <Components.Subtitle>
+                Ingrese su cédula o pasaporte
+              </Components.Subtitle>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  flexDirection: "column",
+                }}
+              >
+                <Autocomplete
+                  disablePortal
+                  id="combo-box-demo"
+                  options={["Cédula", "Pasaporte"]}
+                  value={tipoIdentificacion} // Establece el valor seleccionado
+                  onChange={handleTipoIdentificacionChange} // Maneja el cambio de selección
+                  sx={{ width: 220, fontSize: 8}}
+                  renderInput={(params) => (
+                    <TextField {...params} label="Tipo de identificación" style={{fontSize: 8}} />
+                  )}
                 />
-                <ContactEmergencyIcon style={{ color: "#777" }} />
+
+                <Box sx={{ display: "flex", alignItems: "flex-end",marginBottom:2 }}>
+                  <BadgeIcon
+                    sx={{ color: "action.active", mr: 1, my: 0.5 }}
+                  />
+                  <TextField
+                    id="input-with-sx"
+                    label={`Número de ${tipoIdentificacion || "identificación"}`}
+                    variant="standard"
+                    onChange={(e) => {
+                      setIdentificationNumber(e.target.value);
+                      localStorage.setItem("cedula", e.target.value);
+                    }}
+                  />
+                </Box>
+
+                
+                
               </div>
               {formErrors.length !== 0 ? (
                 <div className="formErrors">

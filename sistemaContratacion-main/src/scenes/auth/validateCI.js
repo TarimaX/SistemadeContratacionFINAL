@@ -70,4 +70,28 @@ function isValidCI(ci) {
   return false;
 }
 
+export function validarNumeroPasaporte(numeroPasaporte) {
+  // Definir el formato permitido (este es un ejemplo genérico)
+  const formatoPermitido = /^[A-Z0-9]+$/;
+
+  // Definir las reglas de longitud y otras validaciones según el país
+  const longitudPermitida = 9; // Por ejemplo, 9 caracteres
+  const letrasPermitidas = /^[A-Z]+$/; // Por ejemplo, solo letras mayúsculas al inicio
+
+  // Verificar longitud y formato permitido
+  if (numeroPasaporte.length !== longitudPermitida || !formatoPermitido.test(numeroPasaporte)) {
+      return false;
+  }
+
+  // Verificar letras iniciales
+  if (!letrasPermitidas.test(numeroPasaporte.substring(0, 1))) {
+      return false;
+  }
+
+  // Otras validaciones específicas podrían agregarse aquí
+
+  // Si pasó todas las validaciones, retorna true
+  return true;
+}
+
 export default isValidCI;
