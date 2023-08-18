@@ -1,0 +1,139 @@
+/* Estilos para pantallas pequeñas (por ejemplo, teléfonos móviles) */
+@media (max-width: 768px) {
+    .authForm {
+      max-width: 100%;
+    }
+  
+    .row {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .row > * {
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+  
+  /* Estilos para pantallas medianas y grandes */
+  @media (min-width: 769px) {
+    .authForm {
+      max-width: 500px;
+    }
+  
+    .row {
+      flex-direction: row;
+      align-items: center;
+    }
+  
+    .row > * {
+      margin-right: 10px;
+      margin-bottom: 0;
+    }
+  }
+  .authForm input,
+.authForm select,
+.authForm button {
+  width: 100%;
+}
+.authForm .row:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: center;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .authForm .row:last-child {
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+    }
+  }
+  
+  .authForm label,
+  .authForm span {
+    font-size: 14px;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .authForm label,
+    .authForm span {
+      font-size: 15px;
+    }
+  }
+  
+  .authForm button {
+    margin-top: 5px;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .authForm button {
+      margin-top: 0;
+      margin-left: -10px;
+    }
+  }
+  .authForm input,
+.authForm select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .authForm input,
+  .authForm select {
+    width: auto;
+  }
+}
+.authForm .row:last-child {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  @media screen and (min-width: 768px) {
+    .authForm .row:last-child {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  
+    .authForm .row:last-child button {
+      margin-top: 28px;
+    }
+  }
+  .scrollableSection {
+    max-height: 200px; /* Ajusta la altura máxima según tus necesidades */
+    overflow-y: auto;
+  }
+  
+
+  /* Auth.css */
+
+/* Asegurarse de que authPage ocupe todo el viewport */
+.authPage {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  /* Hacer que authForm tenga una altura definida y scroll vertical si es necesario */
+  .authForm {
+    max-width: 400px; /* Puedes ajustar el ancho máximo según tus necesidades */
+    width: 120%;
+    padding: 17px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow-y: auto; /* Agregar el scroll vertical */
+    max-height: calc(45vh - 100px); /* Asegurarse de que el formulario no ocupe toda la pantalla y permitir el scroll */
+  }
+  
+ 
+
+  
+
+
+  

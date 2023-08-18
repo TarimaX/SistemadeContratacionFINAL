@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
+
+html,
+body,
+#root,
+.app,
+.content {
+  height: 100%;
+  width: 100%;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.app {
+  display: flex;
+  position: relative;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e0e0e0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+body {
+  margin: 0;
+}
+
+.authPage {
+  background: url('https://assets.isu.pub/document-structure/221028141648-1be45dab0b50bae68e9c7a760115c5ea/v1/b39151246512283b7a1104a841e5003e.jpeg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  font-family: "Montserrat", sans-serif;
+  height: 100vh;
+}
+
+.formErrors {
+  background-color: #f2dede;
+  color: #eb4d4b;
+  font-size: 13px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 15px 0;
+  padding: 10px;
+  text-align: left;
+}
+
+.formErrors ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.formErrors ul li {
+  margin-left: 5px;
+}
+
+.authForm .row {
+  display: flex;
+  flex-direction: row;
+  text-align: left;
+  margin-bottom: 10px;
+  align-items: center;
+}
+
+.authForm .row label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  margin-right: 10px;
+  font-size: 0.8rem;
+}
+
+.authForm .row .col {
+  display: flex;
+  flex-direction: column;
+  margin-right: 10px;
+  width: 100%;
+}
