@@ -295,33 +295,41 @@ function Auth() {
                 </Components.TitleSelect>
               </div>
               {/* Email */}
-              <div className="row scrollableSection">
-                <div className="col">
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <label htmlFor="email">
-                      <EmailIcon />
-                    </label>
-                    <span style={{ marginLeft: "-3px" }}>Email</span>
-                  </div>
-                  <Components.Input
+              <TextField
+                    label="Email"
+                    fullWidth
+                    margin="normal"
+                    variant="standard"
                     type="email"
-                    placeholder="Email"
-                    onChange={(e) => sendEmail(e.target.value)}
+                    name="email"
+                    value={formSignIn.password}
+                    onChange={handleInputChange}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <EmailIcon />
+                        </InputAdornment>
+                      ),
+                    }}
                   />
-                </div>
-              </div>
-              <div className="row">
-                <div className="col">
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <label htmlFor="password">
-                      <KeyIcon />
-                    </label>
-                    <span style={{ marginLeft: "-3px" }}>Contraseña</span>
-                  </div>
-
-                  <Components.Input type="password" placeholder="Contraseña" />
-                </div>
-              </div>
+              
+                  <TextField
+                    label="Contraseña"
+                    fullWidth
+                    margin="normal"
+                    variant="standard"
+                    type="password"
+                    name="password"
+                    value={formSignIn.password}
+                    onChange={handleInputChange}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <KeyIcon />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
               <PopUpSeguro></PopUpSeguro>
               <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
                 <Components.Button
